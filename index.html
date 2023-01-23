@@ -150,24 +150,12 @@ This website, https://jeltecost.nl/, is owned and operated by Jelte Cost and is 
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="flex justify-between">
-                        <?php
-                        foreach (getSlider(1) as $item) {
-                            echo '<li class="mx-5 nav-item nav-item-'.$item['id'].'">';
-                            echo '<a href="'.$item['url'].'" class="nav__link">';
-                            echo '</i>'.$item['title'].'';
-                            echo '</a>';
-                            echo '</li>';
-                        }
-
-                        ?>
-                        <?php
-                        if (isset($_COOKIE["admin"]) && $_COOKIE["admin"] === "Kaas123") {
-                            echo '<li class="mx-5 nav-item nav-item-5">
-                            <a href="./admin" class="nav__link">
-                                </i>admin
-                            </a>';
-                        }
-                        ?>
+                            <li class="mx-5 nav-item nav-item-'.$item['id'].'">
+                            <a href="'.$item['url'].'" class="nav__link">
+                            </i>
+                           </a>
+                        </li>
+                    
                         <li class="mx-5">
                             <i class="uil uil-moon toggle-btn"></i>
                         </li>
@@ -181,9 +169,11 @@ This website, https://jeltecost.nl/, is owned and operated by Jelte Cost and is 
             <div class="col8 col12-xs intro-content text-load">
             <div class="intro-image "></div>
                 <p class="text-2xl intro-text">Hello, my name is</p>
-                <h2 class="font-bold">
-                    <?=getWidget(13, "description")?></h2>
-                <p class="text-2xl programmed-text"><?=getWidget(13, "extra_description")?></a>.</p>
+                <h2 class="font-bold">Jelte Cost</h2>
+                <p class="text-2xl programmed-text">
+                    I'm a web developer specializing in font-end development and back-end development. I'm currently studying at the 
+                    <a target="_blank" href="https://www.a12.nl/opleidingen/software-developer-bol-ede" class="text-link">ROC A12 Technova Software Development </a>.
+                </p>
                 <!-- Download Resume -->
                 <a href="https://jeltecost.nl/assets/pdf/resume_jelte_cost.pdf" class="btn btn-white button-cv" download>Download Resume 
                     <i class="uil uil-download-alt"></i>
@@ -197,14 +187,21 @@ This website, https://jeltecost.nl/, is owned and operated by Jelte Cost and is 
             </div>
         </div>
         <div class="col12 intro-icons">
-            <?php
-            foreach (getSlider(5) as $item) {
-            
-            ?>
-            <a href="<?=$item['url']?>" target="_blank"  title="<?=$item['title']?>">
-                <?=$item['description']?>
+            <a href="#" target="_blank"  title="#">
+                <i class="tooltip uil uil-linkedin-alt">
+                    <span class="tooltiptext">Open my Linkedin!</span>
+                </i>
             </a>
-            <?php } ?>
+            <a href="#" target="_blank"  title="#">
+                <i class="tooltip uil uil-github-alt">
+                    <span class="tooltiptext">Open my Github!</span>
+                </i>
+            </a>
+            <a href="#" target="_blank"  title="#">
+                <i class="tooltip uil uil-twitter-alt">
+                    <span class="tooltiptext">Open my Twitter!</span>
+                </i>
+            </a>
         </div>
         </div>
         
@@ -215,17 +212,29 @@ This website, https://jeltecost.nl/, is owned and operated by Jelte Cost and is 
                 <div class="fade-in">
                     <h3>About Me</h3>
                     <div class="tabs">
-                        <?=getWidget(14, "description")?>
+                        <div class="flex items-center">
+                            <p class="mx-3">Font-end Development</p>
+                            <div class="dot"></div>
+                            <p class="mx-3">Back-end Development</p>
+                            <div class="dot"></div>
+                            <p class="mx-3">Web Design</p>
+                      </div>         
                     </div>
                     <div class="about-content">
-                    <p class="AnimateText"><?=getWidget(14, "extra_description")?></p>
+                    <p class="AnimateText">
+                        I'm a web developer from the Netherlands. I'm currently studying at the 
+                        <a class="text-link" href="https://www.a12.nl/opleidingen/software-developer-bol-ede" target="_blank"> ROC A12 Technova Software Development</a>
+                        in Ede. At the moment this is my last year at my school. 
+                        I'm a very creative person and I love to design and develop websites using HTML, CSS, PHP, JavaScript, MYSQL and more. 
+                        <br><br> 
+                        In my free time I love to play music. I play guitar and piano for some years. </p>
                     </div>
                 </div>
                 
             </div>
             <div class="col4 about-image">
                 <div class="about-img">
-                    <img class="animation-img" src="<?=getWidget(14, "image")?>" alt="<?=getWidget(14, "image")?>">
+                    <img class="animation-img" src="https://jeltecost.nl/assets/img/mysetup.webp" alt="Image of my setup">
                 </div>
             </div>
         </div>
