@@ -19,5 +19,5 @@ Ik heb voor mijn projecten een domein gekocht zodat ik hier alle projecten op ka
 ##Licentie
 Gemaakt door Jelte Cost
 
-- Visit my portfolio here: https://jeltecost.nl
-- DOwnload my resume: https://jeltecost.nl/assets/resemu.pdf
+- Visit my portfolio [here](https://jeltecost.nl)!
+- Download my resume [here](https://jeltecost.nl/assets/pdf/resume_jelte_cost.pdf)!
