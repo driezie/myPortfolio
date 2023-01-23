@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!--  
+! Copyright (c) 2019-Present, Jelte Cost. All rights reserved. | 
+https://jeltecost.nl/license
+
+This website, https://jeltecost.nl/, is owned and operated by Jelte Cost and is protected by international copyright and trademark laws. Any unauthorized use, reproduction, or distribution of the content on this website, including but not limited to images and projects, is strictly prohibited. By accessing or using this website, you agree to be bound by the terms and conditions set forth in this notice. If you do not agree to these terms, please do not use this website.
+    */
+ -->
+<html lang="en">
+<head>
+    <?php 
+    // Requirements
+    require_once './assets/php/meta.php'; 
+    require_once './assets/php/dbh.php';
+    $dbh = dbConnection();
+    
+    // Sets visit counter
+    function clientIpAddress(){
+        if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+          $address = $_SERVER['HTTP_CLIENT_IP'];
+        }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+          $address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }else{
+          $address = $_SERVER['REMOTE_ADDR'];
+        }
+        return $address;
+      }
+    
+    function addVisitCounter() {
+        global $dbh;
+        $sql = "UPDATE config SET page_visits_index = page_visits_index + 1";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
+        
+        $sql = "INSERT INTO visits_log (id, ip, device, browser, date, path) VALUES (NULL, :ip, :device, :browser, :date, :path)";
+        $stmt = $dbh->prepare($sql);
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $stmt->bindParam(':ip', $ip);
+        
+        $isMob = is_numeric(strpos(strtolower($_SERVER["HTTP_USER_AGENT"]), "mobile")); 
+ 
+        if($isMob){ 
+            $device = 'Device'; 
+        }else{ 
+            $device = 'Computer';
+        }
+        $stmt->bindParam(':device', $device);
+        $browser = $_SERVER['HTTP_USER_AGENT'];
+        $stmt->bindParam(':browser', $browser);
+
+        $path = $_SERVER['REQUEST_URI'];
+        
+        $stmt->bindParam(':path', $path);
+        $date = date("Y-m-d H:i:s");
+        $stmt->bindParam(':date', $date);
+        $stmt->execute();
+
+
+
+    } 
+    if (!in_array($_SERVER['REMOTE_ADDR'], $array)) {
+        addVisitCounter();
+        
+    }
+    
+    ?>
+</head>
+<body id="body">
+    <div class="wrapper text-white bg-black h-full center-body" id="home">
+        <header>
+            <nav class="flex justify-between items-center">
+                <a href="https://jeltecost.nl/" class="title">JC</a>
+
+                <div class="nav__menu" id="nav-menu">
+                    <ul class="flex justify-between">
+                        <?php
+                        foreach (getSlider(1) as $item) {
+                            echo '<li class="mx-5 nav-item nav-item-'.$item['id'].'">';
+                            echo '<a href="'.$item['url'].'" class="nav__link">';
+                            echo '</i>'.$item['title'].'';
+                            echo '</a>';
+                            echo '</li>';
+                        }
+
+                        ?>
+                        <?php
+                        if (isset($_COOKIE["admin"]) && $_COOKIE["admin"] === "Kaas123") {
+                            echo '<li class="mx-5 nav-item nav-item-5">
+                            <a href="./admin" class="nav__link">
+                                </i>admin
+                            </a>';
+                        }
+                        ?>
+                        <li class="mx-5">
+                            <i class="uil uil-moon toggle-btn"></i>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- intro -->
+        <div class="intro-main-content">
+        <div class="col12 flex intro justify-center items-center">
+            <div class="col8 col12-xs intro-content text-load">
+            <div class="intro-image "></div>
+                <p class="text-2xl intro-text">Hello, my name is</p>
+                <h2 class="font-bold">
+                    <?=getWidget(13, "description")?></h2>
+                <p class="text-2xl programmed-text"><?=getWidget(13, "extra_description")?></a>.</p>
+                <!-- Download Resume -->
+                <a href="https://jeltecost.nl/assets/pdf/resume_jelte_cost.pdf" class="btn btn-white button-cv" download>Download Resume 
+                    <i class="uil uil-download-alt"></i>
+                </a>
+            </div>
+
+            <div class="col4 col12-xs">
+                <a href="https://jeltecost.nl/" class="intro-image intro-img">
+                    <img class="intro-img animation-img" id="intro-img" src="<?=getWidget(13, "image")?>" alt="<?=getWidget(13, "image")?>">
+                </a>
+            </div>
+        </div>
+        <div class="col12 intro-icons">
+            <?php
+            foreach (getSlider(5) as $item) {
+            
+            ?>
+            <a href="<?=$item['url']?>" target="_blank"  title="<?=$item['title']?>">
+                <?=$item['description']?>
+            </a>
+            <?php } ?>
+        </div>
+        </div>
+        
+
+        <!-- about -->
+        <div class="col12 flex about">
+            <div class="col8" id="about">
+                <div class="fade-in">
+                    <h3>About Me</h3>
+                    <div class="tabs">
+                        <?=getWidget(14, "description")?>
+                    </div>
+                    <div class="about-content">
+                    <p class="AnimateText"><?=getWidget(14, "extra_description")?></p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="col4 about-image">
+                <div class="about-img">
+                    <img class="animation-img" src="<?=getWidget(14, "image")?>" alt="<?=getWidget(14, "image")?>">
+                </div>
+            </div>
+        </div>
+        
+
+
+        <div class="col12 projects w-full" id="projects">
+                <h3 class="text-center">Projects</h3>
+                <div class="col12 list">
+                    <div class="list-container">
+                        <a class="list-item" href="#" target="_blank">
+                            <img class="Lazy" loading="Lazy" src="https://jeltecost.nl/assets/img/project_kobyskreaties.png" data-src="">
+                            <div class="projects-overlay">
+                                <div class="projects-overlay-content">
+                                    <h4>Kobyskreatiess</h4>
+                                    <p>Creating font-end & back-end websites for the webshop</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="list-item" href="#" target="_blank">
+                            <img class="Lazy" loading="Lazy" src="https://jeltecost.nl/assets/img/project_zvc.png" data-src="">
+                            <div class="projects-overlay">
+                                <div class="projects-overlay-content">
+                                    <h4>ZVC Zaalvoetbal Veenendaal</h4>
+                                    <p>Developing & designing font-end pages</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="list-item" href="#" target="_blank">
+                            <img class="Lazy" loading="Lazy" src="https://jeltecost.nl/assets/img/project_farshid.png" data-src="">
+                            <div class="projects-overlay">
+                                <div class="projects-overlay-content">
+                                    <h4>Farshid Rahsepar</h4>
+                                    <p>Designing the interface in Figma</p>
+                                </div>
+                            </div>
+                        </a>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+                
+
+        <!-- contact -->
+        <div class="col12 contact text-center w-full" id="contact">
+            <h3>CONTACT</h3>
+            <div class="contact-content center-body">
+                <p class="mx-5">Feel free to Contact me by submitting the form below and I will get back to you as soon as possible</p>
+                <div class="contact-form">
+                    <form action="https://formspree.io/f/xpzezoyj" method="POST">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Message" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit">Send</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer text-center flex items-center justify-between fade-in" id="footer">
+            <div class="col3">
+                <a href="https://jeltecost.nl/" class="title">JC</a>
+            </div>
+
+            <div class="col6">
+                <a class="mx-5 nav-item-1" href="#contact">home</a>
+                <a class="mx-5 nav-item-2" href="#about">about</a>
+                <a class="mx-5 nav-item-3" href="#projects">projects</a>
+                <a class="mx-5 nav-item-4" href="#contact">contact</a>
+            </div>
+
+            <div class="col3 intro-icons">
+                <div class="icons">
+                    <a href="https://www.linkedin.com/in/jelte-cost/" target="_blank" title="linkedin">
+                        <i class="tooltip uil uil-linkedin-alt">
+                            <span class="tooltiptext">Open my Linkedin!</span>
+                        </i>
+                    </a>
+                    <a href="https://github.com/driezie" target="_blank" title="github">
+                        <i class="tooltip uil uil-github-alt">
+                            <span class="tooltiptext">Open my Github!</span>
+                        </i>
+                    </a>
+                    <a href="https://twitter.com/DevvJust" target="_blank" title="twitter">
+                        <i class="tooltip uil uil-twitter-alt">
+                            <span class="tooltiptext">Open my Twitter!</span>
+                        </i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="canvas-container-div">
+        <canvas id="canvas"></canvas>
+    </div>
+    <div class="cookie" id="cookies">
+        <div class="cookie-content">
+            <p>This website uses cookies to improve your experience. We'll assume you're ok with this, but you can opt-out if you wish.</p>
+            <!-- button but not a real button tag, that excecutes the function useCookie() -->
+            <a class="cookie-btn" id="cookies-btn">Accept</a>
+            
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="/assets/js/darkmode.js"></script> 
+    <script src="/assets/js/cookies.js"></script>            
+
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/scrollrevealsetup.js"></script> 
+    <script src="./assets/js/ballsanimation.js"></script>     
+    <script src="/assets/js/lazyloading.js"></script>
+    <script src="/assets/js/borderanimation.js"></script>
+    
+    <!-- Open source libery's -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
+    <script src="//code.tidio.co/sgr4rlwnpm0nsmsyv3rqu2rfrcqgc2sq.js" async></script>
+
+</body>
+</html>
