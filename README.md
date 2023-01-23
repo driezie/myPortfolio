@@ -9,12 +9,7 @@ Ik heb voor mijn projecten een domein gekocht zodat ik hier alle projecten op ka
 - HTML
 - CSS
 - Javacript
-- PHP
-- React
-- Laravel
-- SCSS
 
- 
 
 ##Licentie
 Gemaakt door Jelte Cost
